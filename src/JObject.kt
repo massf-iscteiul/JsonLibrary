@@ -24,7 +24,6 @@ data class JObject(
     }
 
     override fun accept(visitor: Visitor) {
-        print("heheh")
         visitor.visit(this)
         classObject::class.declaredMemberProperties.forEach {
             it.call(classObject)?.let { value -> instantiate(it.name, value).accept(visitor) }
