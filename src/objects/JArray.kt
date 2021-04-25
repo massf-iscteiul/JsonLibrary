@@ -2,7 +2,7 @@ package objects
 
 import visitors.Visitor
 
-data class JArray(val valuesObject: List<*>) : Visitable() {
+data class JArray(val values: List<*>) : Visitable() {
 
     private fun instantiate(attribute: Any): Visitable {
         return when (attribute) {
@@ -26,7 +26,7 @@ data class JArray(val valuesObject: List<*>) : Visitable() {
 
     override fun accept(visitor: Visitor) {
         visitor.visit(this)
-        valuesObject.forEach {
+        values.forEach {
             instantiate(it!!).accept(visitor)
         }
         visitor.endVisit(this)
