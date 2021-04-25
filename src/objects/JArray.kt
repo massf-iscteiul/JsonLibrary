@@ -12,6 +12,9 @@ data class JArray(val valuesObject: List<*>) : Visitable() {
             is Int -> {
                 JNumber(attribute)
             }
+            is Boolean -> {
+                JBoolean(attribute)
+            }
             is List<*> -> {
                 JArray(attribute)
             }

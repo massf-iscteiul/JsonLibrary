@@ -15,6 +15,10 @@ class ModelVisitor : Visitor {
         attemptString += "${jNumber}, "
     }
 
+    override fun visit(jBoolean: JBoolean) {
+        attemptString += "${jBoolean}, "
+    }
+
     override fun visit(jObject: JObject){
         attemptString += "${jObject.beginString()} "
     }
@@ -46,6 +50,9 @@ class ModelVisitor : Visitor {
             }
             is Int -> {
                 JNumber(toBeParsed).accept(this)
+            }
+            is Boolean -> {
+                JBoolean(toBeParsed).accept(this)
             }
             is List<*> -> {
                 JArray(toBeParsed).accept(this)

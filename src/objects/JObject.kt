@@ -18,6 +18,9 @@ data class JObject(
             is Int -> {
                 KeyValuePair(key, JNumber(attribute))
             }
+            is Boolean -> {
+                KeyValuePair(key, JBoolean(attribute))
+            }
             is List<*> -> {
                 KeyValuePair(key, JArray(attribute))
             }
