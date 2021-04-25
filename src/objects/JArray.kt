@@ -27,7 +27,11 @@ data class JArray(val values: List<*>) : Visitable() {
     override fun accept(visitor: Visitor) {
         visitor.visit(this)
         values.forEach {
-            instantiate(it!!).accept(visitor)
+            val jValue = instantiate(it!!)
+            jValue.accept(visitor)
+            if (it != values.last()){
+                visitor.endVisit(jValue)
+            }
         }
         visitor.endVisit(this)
 

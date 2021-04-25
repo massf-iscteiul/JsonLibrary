@@ -10,7 +10,15 @@ data class JObject(
 
     constructor(classObject: Any) : this("", classObject)
 
-    private fun instantiate(key: String, attribute: Any): Visitable {
+    private val allJValues : MutableList<KeyValuePair> = mutableListOf()
+
+    init {
+        classObject::class.declaredMemberProperties.forEach {
+            it.call(classObject)?.let { value -> allJValues.add(instantiate(it.name, value)) }
+        }
+    }
+
+    private fun instantiate(key: String, attribute: Any): KeyValuePair {
         return when (attribute) {
             is String -> {
                 KeyValuePair(key, JString(attribute))
@@ -32,8 +40,11 @@ data class JObject(
 
     override fun accept(visitor: Visitor) {
         visitor.visit(this)
-        classObject::class.declaredMemberProperties.forEach {
-            it.call(classObject)?.let { value -> instantiate(it.name, value).accept(visitor) }
+        allJValues.forEach {
+            it.accept(visitor)
+            if (it != allJValues.last()){
+                visitor.endVisit(it)
+            }
         }
         visitor.endVisit(this)
     }

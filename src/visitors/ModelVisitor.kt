@@ -8,38 +8,43 @@ class ModelVisitor : Visitor {
 
     override fun visit(jString: JString) {
         numberOfStrings++
-        attemptString += "${jString}, "
+        attemptString += "$jString"
     }
 
     override fun visit(jNumber: JNumber) {
-        attemptString += "${jNumber}, "
+        attemptString += "$jNumber"
     }
 
     override fun visit(jBoolean: JBoolean) {
-        attemptString += "${jBoolean}, "
+        attemptString += "$jBoolean"
+    }
+
+    override fun visit(jNull: JNull) {
+        attemptString += "$jNull"
     }
 
     override fun visit(jObject: JObject){
-        attemptString += "${jObject.beginString()} "
+        attemptString += jObject.beginString()
     }
 
     override fun endVisit(jObject: JObject) {
-        attemptString = attemptString.dropLast(2)
-        attemptString += " ${jObject.endString()}, "
+        attemptString += jObject.endString()
     }
 
     override fun visit(jArray: JArray) {
         attemptString += jArray.beginString()
     }
 
-
     override fun endVisit(jArray: JArray) {
-        attemptString = attemptString.dropLast(2)
-        attemptString += "${jArray.endString()}, "
+        attemptString += jArray.endString()
     }
 
     override fun visit(jPair: KeyValuePair) {
         attemptString += jPair.toString()
+    }
+
+    override fun endVisit(visitable: Visitable) {
+        attemptString += ", "
     }
 
     private fun startBuildingJson(toBeParsed: Any){
@@ -63,7 +68,6 @@ class ModelVisitor : Visitor {
 
     fun parse(toBeParsed : Any): String{
         startBuildingJson(toBeParsed)
-        attemptString = attemptString.dropLast(2)
         return attemptString
     }
 

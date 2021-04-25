@@ -14,4 +14,8 @@ fun main(){
     println(jsonNumber)
     val jsonBoolean = visitor.parse(true)
     println(jsonBoolean)
+    val emptyArray = visitor.parse(mutableListOf<Any>())
+    println(emptyArray)
+    val emptyObject = visitor.parse(Any())
+    println(emptyObject)
 }
