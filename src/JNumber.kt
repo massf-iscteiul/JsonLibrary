@@ -7,9 +7,6 @@ data class JNumber(val keyString: String, val valueInt: Int) : Visitable() {
     }
 
     override fun toString(): String{
-        return if (keyString == "") {
-            "$valueInt"
-        }
-        else "\"${keyString}\": $valueInt"
+        return "$valueInt"
     }
 }

@@ -6,5 +6,6 @@ interface Visitor {
     fun endVisit(jObject: JObject)
     fun visit(jArray: JArray)
     fun endVisit(jArray: JArray)
+    fun visit(jPair: KeyValuePair)
 
 }

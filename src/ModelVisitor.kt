@@ -1,43 +1,59 @@
-import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
-
 class ModelVisitor : Visitor {
     var numberOfStrings = 0
-    var finalString = ""
-    var json = mutableListOf<String>()
+    private var attemptString = ""
 
     override fun visit(jString: JString) {
         numberOfStrings++
-        finalString += "$jString, "
+        attemptString += "${jString}, "
     }
 
     override fun visit(jNumber: JNumber) {
-        finalString += "$jNumber, "
+        attemptString += "${jNumber}, "
     }
 
     override fun visit(jObject: JObject){
-        finalString+=jObject.firstToString()
+        attemptString += "${jObject.beginString()} "
     }
 
-
     override fun endVisit(jObject: JObject) {
-        finalString = finalString.dropLast(2)
-        finalString+=" ${jObject.endString()} "
+        attemptString = attemptString.dropLast(2)
+        attemptString += " ${jObject.endString()}, "
     }
 
     override fun visit(jArray: JArray) {
-        finalString += jArray.firstToString()
+        attemptString += jArray.beginString()
     }
 
+
     override fun endVisit(jArray: JArray) {
-        finalString = finalString.dropLast(2)
-        finalString += "${jArray.endString()},\n"
+        attemptString = attemptString.dropLast(2)
+        attemptString += "${jArray.endString()}, "
+    }
+
+    override fun visit(jPair: KeyValuePair) {
+        attemptString += jPair.toString()
+    }
+
+    private fun startBuildingJson(toBeParsed: Any){
+        attemptString = ""
+        when (toBeParsed) {
+            is String -> {
+                JString(toBeParsed).accept(this)
+            }
+            is Int -> {
+                JNumber(toBeParsed).accept(this)
+            }
+            is List<*> -> {
+                JArray(toBeParsed).accept(this)
+            }
+            else -> JObject(toBeParsed).accept(this)
+        }
     }
 
     fun parse(toBeParsed : Any): String{
-        val jObject = JObject(toBeParsed)
-        jObject.accept(this)
-        return finalString
+        startBuildingJson(toBeParsed)
+        attemptString = attemptString.dropLast(2)
+        return attemptString
     }
 
 

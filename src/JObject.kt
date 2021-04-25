@@ -10,54 +10,33 @@ data class JObject(
     private fun instantiate(key: String, attribute: Any): Visitable {
         return when (attribute) {
             is String -> {
-                JString(key, attribute)
+                KeyValuePair(key, JString(attribute))
             }
             is Int -> {
-                JNumber(key, attribute)
+                KeyValuePair(key, JNumber(attribute))
             }
             is List<*> -> {
-                JArray(key, attribute)
+                KeyValuePair(key, JArray(attribute))
             }
             else -> {
-                JObject(key, attribute)
+                KeyValuePair(key, JObject(attribute))
             }
-        }
-    }
-
-    private fun checkType(arg: Any) : Boolean{
-        return when (arg) {
-            is String -> {
-                true
-            }
-            is Int -> {
-                true
-            }
-            else -> arg is List<*>
         }
     }
 
     override fun accept(visitor: Visitor) {
         visitor.visit(this)
-        if (!checkType(classObject)) {
-            classObject::class.declaredMemberProperties.forEach {
-                it.call(classObject)?.let { value -> instantiate(it.name, value).accept(visitor) }
-            }
-        }
-        else {
-            instantiate("", classObject).accept(visitor)
+        classObject::class.declaredMemberProperties.forEach {
+            it.call(classObject)?.let { value -> instantiate(it.name, value).accept(visitor) }
         }
         visitor.endVisit(this)
     }
 
-    fun firstToString(): String {
-        return if (name == "") {
-            "{ "
-        } else "\"${name}\": { "
+    fun beginString(): String {
+        return "{"
     }
 
-    fun endString(): String{
-        return if (name == "") {
-            "}"
-        } else "},"
+    fun endString(): String {
+        return "}"
     }
 }

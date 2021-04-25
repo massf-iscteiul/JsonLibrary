@@ -1,6 +1,4 @@
-data class JArray(val keyString: String, val valuesObject: List<*>) : Visitable() {
-
-    var visitableList = mutableListOf<Visitable>()
+data class JArray(val valuesObject: List<*>) : Visitable() {
 
     private fun instantiate(attribute: Any): Visitable {
         return when (attribute) {
@@ -11,7 +9,7 @@ data class JArray(val keyString: String, val valuesObject: List<*>) : Visitable(
                 JNumber(attribute)
             }
             is List<*> -> {
-                JArray("", attribute)
+                JArray(attribute)
             }
             else -> {
                 JObject(attribute)
@@ -28,10 +26,8 @@ data class JArray(val keyString: String, val valuesObject: List<*>) : Visitable(
 
     }
 
-    fun firstToString(): String {
-        return if (keyString == "") {
-            "["
-        } else "\"${keyString}\": ["
+    fun beginString(): String {
+        return "["
     }
 
     fun endString(): String{
