@@ -47,7 +47,7 @@ class ModelVisitor : Visitor {
         attemptString += ", "
     }
 
-    private fun startBuildingJson(toBeParsed: Any){
+    private fun startBuildingJson(toBeParsed: Any?){
         attemptString = ""
         when (toBeParsed) {
             is String -> {
@@ -62,11 +62,14 @@ class ModelVisitor : Visitor {
             is List<*> -> {
                 JArray(toBeParsed).accept(this)
             }
+            null -> {
+                JNull(toBeParsed).accept(this)
+            }
             else -> JObject(toBeParsed).accept(this)
         }
     }
 
-    fun parse(toBeParsed : Any): String{
+    fun parse(toBeParsed : Any?): String{
         startBuildingJson(toBeParsed)
         return attemptString
     }

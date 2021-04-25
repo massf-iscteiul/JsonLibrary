@@ -14,11 +14,11 @@ data class JObject(
 
     init {
         classObject::class.declaredMemberProperties.forEach {
-            it.call(classObject)?.let { value -> allJValues.add(instantiate(it.name, value)) }
+            it.call(classObject).let { value -> allJValues.add(instantiate(it.name, value)) }
         }
     }
 
-    private fun instantiate(key: String, attribute: Any): KeyValuePair {
+    private fun instantiate(key: String, attribute: Any?): KeyValuePair {
         return when (attribute) {
             is String -> {
                 KeyValuePair(key, JString(attribute))
@@ -31,6 +31,9 @@ data class JObject(
             }
             is List<*> -> {
                 KeyValuePair(key, JArray(attribute))
+            }
+            null -> {
+                KeyValuePair(key, JNull(attribute))
             }
             else -> {
                 KeyValuePair(key, JObject(attribute))

@@ -2,11 +2,13 @@ import visitors.ModelVisitor
 
 fun main(){
     val visitor = ModelVisitor()
-    val movie = Movie("Harry Potter",1)
+    val movie = Movie("Harry Potter",1, null)
+    val movieJson1 = visitor.parse(movie)
+    println(movieJson1)
     val movieList = MovieList(10, movie, true, listOf(1,2,3))
     val movieJson = visitor.parse(movieList)
     println(movieJson)
-    val jsonArray = visitor.parse(listOf(1,2,3, "hihi", false))
+    val jsonArray = visitor.parse(listOf(1,2,3, null, "hihi", false))
     println(jsonArray)
     val jsonString = visitor.parse("Hello World")
     println(jsonString)
@@ -18,4 +20,6 @@ fun main(){
     println(emptyArray)
     val emptyObject = visitor.parse(Any())
     println(emptyObject)
+    val nullObject = visitor.parse(null)
+    println(nullObject)
 }
