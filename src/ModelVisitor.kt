@@ -8,23 +8,30 @@ class ModelVisitor : Visitor {
 
     override fun visit(jString: JString) {
         numberOfStrings++
-        // json.add(jString.toString())
-        finalString += "$jString,\n"
+        finalString += "$jString, "
     }
 
     override fun visit(jNumber: JNumber) {
-        // json.add(jNumber.toString())
-        finalString += "$jNumber,\n"
+        finalString += "$jNumber, "
     }
 
     override fun visit(jObject: JObject){
         finalString+=jObject.firstToString()
-        // finalString = jObject.toString(json.joinToString(separator = ",\n"))
     }
+
 
     override fun endVisit(jObject: JObject) {
         finalString = finalString.dropLast(2)
-        finalString+="\n${jObject.endString()}\n"
+        finalString+=" ${jObject.endString()} "
+    }
+
+    override fun visit(jArray: JArray) {
+        finalString += jArray.firstToString()
+    }
+
+    override fun endVisit(jArray: JArray) {
+        finalString = finalString.dropLast(2)
+        finalString += "${jArray.endString()},\n"
     }
 
     fun parse(toBeParsed : Any): String{

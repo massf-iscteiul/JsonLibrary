@@ -1,5 +1,3 @@
-import kotlin.reflect.KClass
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 
 data class JObject(
@@ -17,24 +15,44 @@ data class JObject(
             is Int -> {
                 JNumber(key, attribute)
             }
+            is List<*> -> {
+                JArray(key, attribute)
+            }
             else -> {
                 JObject(key, attribute)
             }
         }
     }
 
+    private fun checkType(arg: Any) : Boolean{
+        return when (arg) {
+            is String -> {
+                true
+            }
+            is Int -> {
+                true
+            }
+            else -> arg is List<*>
+        }
+    }
+
     override fun accept(visitor: Visitor) {
         visitor.visit(this)
-        classObject::class.declaredMemberProperties.forEach {
-            it.call(classObject)?.let { value -> instantiate(it.name, value).accept(visitor) }
+        if (!checkType(classObject)) {
+            classObject::class.declaredMemberProperties.forEach {
+                it.call(classObject)?.let { value -> instantiate(it.name, value).accept(visitor) }
+            }
+        }
+        else {
+            instantiate("", classObject).accept(visitor)
         }
         visitor.endVisit(this)
     }
 
     fun firstToString(): String {
         return if (name == "") {
-            "{\n"
-        } else "\"${name}\": {\n"
+            "{ "
+        } else "\"${name}\": { "
     }
 
     fun endString(): String{

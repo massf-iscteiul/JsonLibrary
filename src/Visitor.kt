@@ -4,5 +4,7 @@ interface Visitor {
     fun visit(jNumber: JNumber)
     fun visit(jObject: JObject)
     fun endVisit(jObject: JObject)
+    fun visit(jArray: JArray)
+    fun endVisit(jArray: JArray)
 
 }
