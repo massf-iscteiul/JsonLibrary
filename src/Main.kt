@@ -1,3 +1,5 @@
+import visitors.ModelVisitor
+
 fun main(){
     val visitor = ModelVisitor()
     val movie = Movie("Harry Potter",1)

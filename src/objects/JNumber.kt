@@ -1,3 +1,7 @@
+package objects
+
+import visitors.Visitor
+
 data class JNumber(val keyString: String, val valueInt: Int) : Visitable() {
 
     constructor(valueInt: Int) : this("", valueInt)

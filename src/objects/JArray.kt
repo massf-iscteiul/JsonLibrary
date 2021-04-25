@@ -1,3 +1,7 @@
+package objects
+
+import visitors.Visitor
+
 data class JArray(val valuesObject: List<*>) : Visitable() {
 
     private fun instantiate(attribute: Any): Visitable {

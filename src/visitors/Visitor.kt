@@ -1,3 +1,7 @@
+package visitors
+
+import objects.*
+
 interface Visitor {
 
     fun visit(jString: JString)

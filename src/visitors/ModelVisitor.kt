@@ -1,3 +1,7 @@
+package visitors
+
+import objects.*
+
 class ModelVisitor : Visitor {
     var numberOfStrings = 0
     private var attemptString = ""

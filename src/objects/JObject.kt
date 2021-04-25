@@ -1,3 +1,6 @@
+package objects
+
+import visitors.Visitor
 import kotlin.reflect.full.declaredMemberProperties
 
 data class JObject(

@@ -1,3 +1,7 @@
+package objects
+
+import visitors.Visitor
+
 data class JString(val valueString: String) : Visitable() {
 
     override fun accept(visitor: Visitor) {
