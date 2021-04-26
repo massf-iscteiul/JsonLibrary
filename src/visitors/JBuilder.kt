@@ -2,7 +2,7 @@ package visitors
 
 import objects.*
 
-class ModelVisitor : Visitor {
+class JBuilder : Visitor {
     private var attemptString = ""
 
     override fun visit(jLeaf: Leaf) {

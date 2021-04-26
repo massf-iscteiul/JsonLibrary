@@ -1,7 +1,7 @@
-import visitors.ModelVisitor
+import visitors.JBuilder
 
 fun main(){
-    val visitor = ModelVisitor()
+    val visitor = JBuilder()
     val movie = Movie("Harry Potter",1, null)
     val movieJson1 = visitor.parse(movie)
     println(movieJson1)
