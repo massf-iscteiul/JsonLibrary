@@ -1,7 +1,9 @@
 package objects
 
+import JIgnore
 import visitors.Visitor
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.hasAnnotation
 
 data class JObject(val classObject: Any) : Composite() {
 
@@ -10,7 +12,9 @@ data class JObject(val classObject: Any) : Composite() {
 
     init {
         classObject::class.declaredMemberProperties.forEach {
-            it.call(classObject).let { value -> allJValues.add(instantiate(it.name, value)) }
+            if(!it.hasAnnotation<JIgnore>()) {
+                it.call(classObject).let { value -> allJValues.add(instantiate(it.name, value)) }
+            }
         }
     }
 
