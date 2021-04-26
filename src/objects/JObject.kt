@@ -3,14 +3,10 @@ package objects
 import visitors.Visitor
 import kotlin.reflect.full.declaredMemberProperties
 
-data class JObject(
-    val name: String,
-    val classObject: Any
-) : Composite() {
+data class JObject(val classObject: Any) : Composite() {
 
-    constructor(classObject: Any) : this("", classObject)
 
-    private val allJValues : MutableList<KeyValuePair> = mutableListOf()
+    val allJValues : MutableList<KeyValuePair> = mutableListOf()
 
     init {
         classObject::class.declaredMemberProperties.forEach {
