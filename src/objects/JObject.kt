@@ -1,8 +1,10 @@
 package objects
 
+import JIdentifier
 import JIgnore
 import visitors.Visitor
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
 
 data class JObject(val classObject: Any) : Composite() {
@@ -13,7 +15,9 @@ data class JObject(val classObject: Any) : Composite() {
     init {
         classObject::class.declaredMemberProperties.forEach {
             if(!it.hasAnnotation<JIgnore>()) {
-                it.call(classObject).let { value -> allJValues.add(instantiate(it.name, value)) }
+                val key = if (it.hasAnnotation<JIdentifier>()) it.findAnnotation<JIdentifier>()!!.identifier else it.name
+                it.call(classObject).let { value ->
+                    allJValues.add(instantiate(key, value)) }
             }
         }
     }
