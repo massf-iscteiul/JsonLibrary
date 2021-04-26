@@ -6,7 +6,7 @@ import junit.framework.Assert.assertEquals
 import org.junit.Test
 import visitors.JBuilder
 
-class AnnonationTests {
+class AnnotationsTests {
 
     data class Book(
         val name: String,
