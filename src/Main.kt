@@ -7,7 +7,7 @@ fun main() {
     val movie = Movie("Harry Potter", 1, null)
     val movieJson1 = visitor.parse(movie)
     println(movieJson1)
-    val movieList = MovieList(10, movie, true, listOf(1, 2, 3, "Parte 1", "Parte 2"))
+    val movieList = MovieList(10, movie, true, listOf("Parte 1", "Parte 2"))
     val movieJson = visitor.parse(movieList)
     println(movieJson)
     val jsonArray = visitor.parse(listOf(1, 2, 3, null, "hihi", false))
@@ -24,14 +24,28 @@ fun main() {
     println(emptyObject)
     val nullObject = visitor.parse(null)
     println(nullObject)
+
+    // SEARCHER
+
     val searchVisitor = JSearcher { it is JString }
-    println(searchVisitor.search(movieList))
+    val movie2 = Movie("Tarzan", 2, null)
+    val movieList2 = MovieList(7, movie2, true, listOf("The Lion King", "Mogly"))
+    // println(visitor.parse(movieList2))
+    println(searchVisitor.search(movieList2))
     val searchVisitorComposite = JSearcher {
         it is JObject && it.allJValues.find { it2 ->
-            it2.value is JNumber && it2.value.value == 1
+            it2.value is JNumber && it2.value.value == 7
         } != null
     }
-    println(searchVisitorComposite.search(movieList))
+    println(searchVisitorComposite.search(movieList2))
+    val searchVisitorComposite3 = JSearcher {
+        it is JObject && it.allJValues.find { it2 ->
+            it2.value is JString && it2.key == "name" && it2.value.value == "Tarzan"
+        } != null
+    }
+    println(searchVisitorComposite3.search(movieList2))
 
-
+    val movie3 = Movie("Harry Potter", 1, null)
+    val movieList3 = MovieList(10, movie, true, listOf(1, 2, 3))
+    println(visitor.parse(movieList3))
 }

@@ -57,7 +57,7 @@ class JBuilderTest {
         val movie = Movie("Harry Potter", 1, null)
         val movieList = MovieList(10, movie, true, listOf(1, 2, 3))
         assertEquals(
-            "{\"liked\": true, \"list\": [1, 2, 3], \"movie\": {\"name\": \"Harry Potter\", \"number\": 1, \"series\": null}, \"score\": 10}",
+            "{\"liked\": true, \"movie\": {\"name\": \"Harry Potter\", \"number\": 1, \"series\": null}, \"related\": [1, 2, 3], \"score\": 10}",
             JBuilder().parse(movieList)
         )
         assertEquals(

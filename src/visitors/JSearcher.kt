@@ -40,9 +40,9 @@ class JSearcher(val condition: (Visitable) -> Boolean) : Visitor {
         }
     }
 
-    fun search(classObject : Any?): List<Visitable>{
+    fun search(classObject : Any?): String{
         startBuildingJson(classObject)
-        return conditionedList
+        return conditionedList.toString()
     }
 
 }
