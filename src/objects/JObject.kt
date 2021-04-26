@@ -6,7 +6,7 @@ import kotlin.reflect.full.declaredMemberProperties
 data class JObject(
     val name: String,
     val classObject: Any
-) : Visitable() {
+) : Composite() {
 
     constructor(classObject: Any) : this("", classObject)
 
@@ -52,11 +52,11 @@ data class JObject(
         visitor.endVisit(this)
     }
 
-    fun beginString(): String {
+    override fun beginString(): String {
         return "{"
     }
 
-    fun endString(): String {
+    override fun endString(): String {
         return "}"
     }
 }

@@ -2,7 +2,6 @@ package objects
 
 import visitors.Visitor
 
-abstract class Visitable {
-
-    abstract fun accept(visitor : Visitor)
+interface Visitable {
+    fun accept(visitor : Visitor)
 }

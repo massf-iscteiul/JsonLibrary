@@ -2,7 +2,7 @@ package objects
 
 import visitors.Visitor
 
-data class JArray(val values: List<*>) : Visitable() {
+data class JArray(val values: List<*>) : Composite() {
 
     private fun instantiate(attribute: Any?): Visitable {
         return when (attribute) {
@@ -40,11 +40,11 @@ data class JArray(val values: List<*>) : Visitable() {
 
     }
 
-    fun beginString(): String {
+    override fun beginString(): String {
         return "["
     }
 
-    fun endString(): String{
+    override fun endString(): String{
         return "]"
     }
 

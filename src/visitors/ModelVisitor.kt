@@ -3,44 +3,18 @@ package visitors
 import objects.*
 
 class ModelVisitor : Visitor {
-    var numberOfStrings = 0
     private var attemptString = ""
 
-    override fun visit(jString: JString) {
-        numberOfStrings++
-        attemptString += "$jString"
+    override fun visit(jLeaf: Leaf) {
+        attemptString += jLeaf.toString()
     }
 
-    override fun visit(jNumber: JNumber) {
-        attemptString += "$jNumber"
+    override fun visit(jComposite: Composite) {
+        attemptString += jComposite.beginString()
     }
 
-    override fun visit(jBoolean: JBoolean) {
-        attemptString += "$jBoolean"
-    }
-
-    override fun visit(jNull: JNull) {
-        attemptString += "$jNull"
-    }
-
-    override fun visit(jObject: JObject){
-        attemptString += jObject.beginString()
-    }
-
-    override fun endVisit(jObject: JObject) {
-        attemptString += jObject.endString()
-    }
-
-    override fun visit(jArray: JArray) {
-        attemptString += jArray.beginString()
-    }
-
-    override fun endVisit(jArray: JArray) {
-        attemptString += jArray.endString()
-    }
-
-    override fun visit(jPair: KeyValuePair) {
-        attemptString += jPair.toString()
+    override fun endVisit(jComposite: Composite) {
+        attemptString += jComposite.endString()
     }
 
     override fun endVisit(visitable: Visitable) {

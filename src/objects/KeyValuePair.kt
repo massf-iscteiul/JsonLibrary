@@ -2,7 +2,7 @@ package objects
 
 import visitors.Visitor
 
-data class KeyValuePair(val key: String, val value: Visitable): Visitable() {
+data class KeyValuePair(val key: String, val value: Visitable): Leaf() {
 
     override fun accept(visitor: Visitor) {
         visitor.visit(this)

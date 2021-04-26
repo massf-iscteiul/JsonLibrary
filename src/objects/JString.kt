@@ -1,15 +1,7 @@
 package objects
 
-import visitors.Visitor
-
-data class JString(val value: String) : Visitable() {
-
-    override fun accept(visitor: Visitor) {
-        visitor.visit(this)
-    }
-
+data class JString(val value: String) : Leaf() {
     override fun toString(): String{
         return "\"${value}\""
     }
-
 }
