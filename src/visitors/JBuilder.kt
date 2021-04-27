@@ -21,30 +21,9 @@ class JBuilder : Visitor {
         attemptString += ", "
     }
 
-    private fun startBuildingJson(toBeParsed: Any?){
-        attemptString = ""
-        when (toBeParsed) {
-            is String -> {
-                JString(toBeParsed).accept(this)
-            }
-            is Int -> {
-                JNumber(toBeParsed).accept(this)
-            }
-            is Boolean -> {
-                JBoolean(toBeParsed).accept(this)
-            }
-            is List<*> -> {
-                JArray(toBeParsed).accept(this)
-            }
-            null -> {
-                JNull(toBeParsed).accept(this)
-            }
-            else -> JObject(toBeParsed).accept(this)
-        }
-    }
-
     fun parse(toBeParsed : Any?): String{
-        startBuildingJson(toBeParsed)
+        attemptString = ""
+        instantiate(toBeParsed)
         return attemptString
     }
 

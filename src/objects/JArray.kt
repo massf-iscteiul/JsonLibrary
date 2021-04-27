@@ -15,8 +15,8 @@ data class JArray(val values: List<*>) : Composite() {
             is Boolean -> {
                 JBoolean(attribute)
             }
-            is List<*> -> {
-                JArray(attribute)
+            is List<*>, is Set<*> -> {
+                JArray((attribute as Iterable<*>).toList())
             }
             null -> {
                 JNull(attribute)

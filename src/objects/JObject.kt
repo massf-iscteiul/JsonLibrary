@@ -33,8 +33,8 @@ data class JObject(val classObject: Any) : Composite() {
             is Boolean -> {
                 KeyValuePair(key, JBoolean(attribute))
             }
-            is List<*> -> {
-                KeyValuePair(key, JArray(attribute))
+            is List<*>, is Set<*> -> {
+                KeyValuePair(key, JArray((attribute as Iterable<*>).toList()))
             }
             null -> {
                 KeyValuePair(key, JNull(attribute))
