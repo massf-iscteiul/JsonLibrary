@@ -21,6 +21,9 @@ interface Visitor {
             is List<*>, is Set<*> -> {
                 JArray((toBeParsed as Iterable<*>).toList()).accept(this)
             }
+            is Map<*, *> -> {
+                JObject(toBeParsed).accept(this)
+            }
             null -> {
                 JNull(toBeParsed).accept(this)
             }

@@ -13,12 +13,25 @@ data class JObject(val classObject: Any) : Composite() {
     val allJValues : MutableList<KeyValuePair> = mutableListOf()
 
     init {
-        classObject::class.declaredMemberProperties.forEach {
-            if(!it.hasAnnotation<JIgnore>()) {
-                val key = if (it.hasAnnotation<JIdentifier>()) it.findAnnotation<JIdentifier>()!!.identifier else it.name
-                it.call(classObject).let { value ->
-                    allJValues.add(instantiate(key, value)) }
+        if (classObject is Map<*,*>){
+            instantiateMap(classObject.toList())
+        }
+        else {
+            classObject::class.declaredMemberProperties.forEach {
+                if (!it.hasAnnotation<JIgnore>()) {
+                    val key =
+                        if (it.hasAnnotation<JIdentifier>()) it.findAnnotation<JIdentifier>()!!.identifier else it.name
+                    it.call(classObject).let { value ->
+                        allJValues.add(instantiate(key, value))
+                    }
+                }
             }
+        }
+    }
+
+    private fun instantiateMap(map: List<Pair<*,*>>){
+        map.forEach {
+            allJValues.add(instantiate(it.first.toString(), it.second))
         }
     }
 
