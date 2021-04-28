@@ -27,6 +27,9 @@ interface Visitor {
             null -> {
                 JNull(toBeParsed).accept(this)
             }
+            is Enum<*> -> {
+                JString(toBeParsed.name).accept(this)
+            }
             else -> JObject(toBeParsed).accept(this)
         }
     }

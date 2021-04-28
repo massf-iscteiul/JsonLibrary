@@ -21,6 +21,9 @@ data class JArray(val values: List<*>) : Composite() {
             null -> {
                 JNull(attribute)
             }
+            is Enum<*> -> {
+                JString(attribute.name)
+            }
             else -> {
                 JObject(attribute)
             }

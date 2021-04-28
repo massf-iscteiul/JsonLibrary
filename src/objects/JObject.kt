@@ -52,6 +52,9 @@ data class JObject(val classObject: Any) : Composite() {
             null -> {
                 KeyValuePair(key, JNull(attribute))
             }
+            is Enum<*> -> {
+                KeyValuePair(key, JString(attribute.name))
+            }
             else -> {
                 KeyValuePair(key, JObject(attribute))
             }
