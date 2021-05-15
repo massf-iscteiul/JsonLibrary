@@ -1,9 +1,9 @@
 package visitors
 
-import RJComposite
+import JComposite
 import objects.*
 
 interface Visitor {
     fun visit(jLeaf: Leaf)
-    fun visit(rjComposite: RJComposite)
+    fun visit(jComposite: JComposite)
 }

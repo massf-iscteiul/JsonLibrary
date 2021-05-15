@@ -22,14 +22,14 @@ class JBuilder {
             }
             is List<*>, is Set<*> -> {
                 val arrayObjects = (toBeParsed as Iterable<*>).map { instantiate(it) }
-                RJArray(arrayObjects.toMutableList())
+                JArray(arrayObjects.toMutableList())
             }
             is Map<*, *> -> {
-                val keyValuePairs = mutableListOf<RKeyValuePair>()
+                val keyValuePairs = mutableListOf<KeyValuePair>()
                 toBeParsed.toList().forEach{
-                    keyValuePairs.add(RKeyValuePair(it.first.toString(), instantiate(it.second)))
+                    keyValuePairs.add(KeyValuePair(it.first.toString(), instantiate(it.second)))
                 }
-                RJObject(keyValuePairs)
+                JObject(keyValuePairs)
             }
             null -> {
                 JNull(toBeParsed)
@@ -38,15 +38,15 @@ class JBuilder {
                 JString(toBeParsed.name)
             }
             else -> {
-                val keyValuePairs = mutableListOf<RKeyValuePair>()
+                val keyValuePairs = mutableListOf<KeyValuePair>()
                 toBeParsed::class.declaredMemberProperties.forEach {
                     if (!it.hasAnnotation<JIgnore>()) {
                         val key =
                             if (it.hasAnnotation<JIdentifier>()) it.findAnnotation<JIdentifier>()!!.identifier else it.name
-                        keyValuePairs.add(RKeyValuePair(key, instantiate(it.call(toBeParsed))))
+                        keyValuePairs.add(KeyValuePair(key, instantiate(it.call(toBeParsed))))
                     }
                 }
-                RJObject(keyValuePairs)
+                JObject(keyValuePairs)
             }
         }
     }

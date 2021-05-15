@@ -1,8 +1,8 @@
 package objects
 
-import RJComposite
+import JComposite
 
-data class RJObject(val objects : List<RKeyValuePair>): RJComposite() {
+data class JObject(val objects : List<KeyValuePair>): JComposite() {
 
     override val allJValues : MutableList<Visitable> = mutableListOf()
 

@@ -5,7 +5,7 @@ import MovieList
 import junit.framework.Assert.assertEquals
 import objects.JNumber
 import objects.JString
-import objects.RJObject
+import objects.JObject
 import org.junit.Test
 import visitors.JBuilder
 import visitors.JSearcher
@@ -30,7 +30,7 @@ class JSearcherTest {
         val movie = Movie("Tarzan", 2, null)
         val movieList = MovieList(7, movie, true, listOf("The Lion King", "Mogly"))
         val searchVisitor = JSearcher {
-            it is RJObject && it.objects.find { it2 ->
+            it is JObject && it.objects.find { it2 ->
                 it2.value is JNumber && it2.value.value == 2
             } != null
         }
@@ -42,7 +42,7 @@ class JSearcherTest {
         )
 
         val searchVisitor2 = JSearcher {
-            it is RJObject && it.objects.find { it2 ->
+            it is JObject && it.objects.find { it2 ->
                 it2.value is JString && it2.key == "name" && it2.value.value == "Tarzan"
             } != null
         }

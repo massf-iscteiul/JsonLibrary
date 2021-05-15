@@ -1,7 +1,7 @@
 import objects.Visitable
 import visitors.Visitor
 
-abstract class RJComposite : Visitable {
+abstract class JComposite : Visitable {
 
     abstract val allJValues: MutableList<Visitable>
 

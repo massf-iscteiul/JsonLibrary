@@ -1,8 +1,8 @@
 package objects
 
-import RJComposite
+import JComposite
 
-data class RJArray(override val allJValues: MutableList<Visitable>) : RJComposite() {
+data class JArray(override val allJValues: MutableList<Visitable>) : JComposite() {
     override fun toString(): String{
         return "[${allJValues.joinToString(separator = ", ") {it.toString()}}]"
     }
