@@ -1,9 +1,20 @@
-import visitors.JBuilder
+data class Book(
+    val name: String,
+    val volume: Int,
+    @JIgnore
+    val otherVolumes: List<Int>,
+    val interesting: Boolean
+)
+
+data class Journal(
+    val owner: String,
+    val age: Int,
+    @JIdentifier("confidential")
+    val favoriteNumbers: List<Int>,
+    val canRead: Boolean
+)
 
 fun main() {
-    val visitor = JBuilder()
-    val movie = Movie("Harry Potter", 1, null)
-    val movieList = MovieList(10, movie, true, listOf("Parte 1", "Parte 2"))
-    val movieJson = visitor.parse(movieList)
-    println(movieJson)
+
+
 }

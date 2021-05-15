@@ -1,5 +1,6 @@
 package visitors
 
+import RJComposite
 import objects.*
 
 interface Visitor {
@@ -33,4 +34,6 @@ interface Visitor {
             else -> JObject(toBeParsed).accept(this)
         }
     }
+
+    fun visit(rjComposite: RJComposite)
 }

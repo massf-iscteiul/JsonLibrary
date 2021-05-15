@@ -29,7 +29,7 @@ class AnnotationsTests {
         val book = Book("1001 Jokes", 2, listOf(1,3,4), true)
         assertEquals(
             "{\"interesting\": true, \"name\": \"1001 Jokes\", \"volume\": 2}",
-            JBuilder().parse(book)
+            JBuilder().instantiate(book).toString()
         )
     }
 
@@ -38,7 +38,7 @@ class AnnotationsTests {
         val journal = Journal("Miguel", 21, listOf(1,2,3,4), false)
         assertEquals(
             "{\"age\": 21, \"canRead\": false, \"confidential\": [1, 2, 3, 4], \"owner\": \"Miguel\"}",
-            JBuilder().parse(journal)
+            JBuilder().instantiate(journal).toString()
         )
     }
 

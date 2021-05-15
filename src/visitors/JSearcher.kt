@@ -1,6 +1,9 @@
 package visitors
 
-import objects.*
+import RJComposite
+import objects.Composite
+import objects.Leaf
+import objects.Visitable
 
 class JSearcher(val condition: (Visitable) -> Boolean) : Visitor {
 
@@ -18,10 +21,9 @@ class JSearcher(val condition: (Visitable) -> Boolean) : Visitor {
         }
     }
 
-    fun search(classObject : Any?): String{
-        conditionedList = mutableListOf<Visitable>()
-        instantiate(classObject)
-        return conditionedList.toString()
+    override fun visit(rjComposite: RJComposite) {
+        if(condition(rjComposite)){
+            conditionedList.add(rjComposite)
+        }
     }
-
 }

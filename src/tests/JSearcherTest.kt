@@ -4,9 +4,10 @@ import Movie
 import MovieList
 import junit.framework.Assert.assertEquals
 import objects.JNumber
-import objects.JObject
 import objects.JString
+import objects.RJObject
 import org.junit.Test
+import visitors.JBuilder
 import visitors.JSearcher
 
 class JSearcherTest {
@@ -15,33 +16,40 @@ class JSearcherTest {
     fun jSearchStringTest() {
         val movie = Movie("Tarzan", 2, null)
         val movieList = MovieList(7, movie, true, listOf("The Lion King", "Mogly"))
+        val searchVisitor = JSearcher { it is JString }
+        val builder = JBuilder()
+        builder.instantiate(movieList).accept(searchVisitor)
         assertEquals(
             "[\"Tarzan\", \"The Lion King\", \"Mogly\"]",
-            JSearcher { it is JString }.search(movieList)
+            searchVisitor.conditionedList.toString()
         )
     }
 
     @Test
-    fun jSearchCompositeTest(){
+    fun jSearchCompositeTest() {
         val movie = Movie("Tarzan", 2, null)
         val movieList = MovieList(7, movie, true, listOf("The Lion King", "Mogly"))
-        val searchVisitorComposite = JSearcher {
-            it is JObject && it.allJValues.find { it2 ->
-                it2.value is JNumber && it2.value.value == 7
+        val searchVisitor = JSearcher {
+            it is RJObject && it.objects.find { it2 ->
+                it2.value is JNumber && it2.value.value == 2
             } != null
         }
+        val builder = JBuilder()
+        builder.instantiate(movieList).accept(searchVisitor)
         assertEquals(
-            "[JObject(classObject=MovieList(score=7, movie=Movie(name=Tarzan, number=2, series=null), liked=true, related=[The Lion King, Mogly]))]",
-            searchVisitorComposite.search(movieList)
+            "[{\"name\": \"Tarzan\", \"number\": 2, \"series\": null}]",
+            searchVisitor.conditionedList.toString()
         )
-        val searchVisitorComposite2 = JSearcher {
-            it is JObject && it.allJValues.find { it2 ->
+
+        val searchVisitor2 = JSearcher {
+            it is RJObject && it.objects.find { it2 ->
                 it2.value is JString && it2.key == "name" && it2.value.value == "Tarzan"
             } != null
         }
+        builder.instantiate(movieList).accept(searchVisitor2)
         assertEquals(
-            "[JObject(classObject=Movie(name=Tarzan, number=2, series=null))]",
-            searchVisitorComposite2.search(movieList)
+            "[{\"name\": \"Tarzan\", \"number\": 2, \"series\": null}]",
+            searchVisitor2.conditionedList.toString()
         )
     }
 }

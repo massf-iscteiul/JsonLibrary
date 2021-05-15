@@ -12,7 +12,7 @@ class JBuilderTest {
     fun jStringTest() {
         assertEquals(
             "\"Harry Potter\"",
-            JBuilder().parse("Harry Potter")
+            JBuilder().instantiate("Harry Potter").toString()
         )
     }
 
@@ -20,7 +20,7 @@ class JBuilderTest {
     fun jNumberTest() {
         assertEquals(
             "1999",
-            JBuilder().parse(1999)
+            JBuilder().instantiate(1999).toString()
         )
     }
 
@@ -28,7 +28,7 @@ class JBuilderTest {
     fun jBooleanTest() {
         assertEquals(
             "true",
-            JBuilder().parse(true)
+            JBuilder().instantiate(true).toString()
         )
     }
 
@@ -36,7 +36,7 @@ class JBuilderTest {
     fun jNullTest() {
         assertEquals(
             "null",
-            JBuilder().parse(null)
+            JBuilder().instantiate(null).toString()
         )
     }
 
@@ -44,11 +44,11 @@ class JBuilderTest {
     fun jArrayTest() {
         assertEquals(
             "[1, 2, \"Harry Potter\", false]",
-            JBuilder().parse(listOf(1, 2, "Harry Potter", false))
+            JBuilder().instantiate(listOf(1, 2, "Harry Potter", false)).toString()
         )
         assertEquals(
             "[]",
-            JBuilder().parse(mutableListOf<Any>())
+            JBuilder().instantiate(mutableListOf<Any>()).toString()
         )
     }
 
@@ -58,11 +58,11 @@ class JBuilderTest {
         val movieList = MovieList(10, movie, true, listOf(1, 2, 3))
         assertEquals(
             "{\"liked\": true, \"movie\": {\"name\": \"Harry Potter\", \"number\": 1, \"series\": null}, \"related\": [1, 2, 3], \"score\": 10}",
-            JBuilder().parse(movieList)
+            JBuilder().instantiate(movieList).toString()
         )
         assertEquals(
             "{}",
-            JBuilder().parse(Any())
+            JBuilder().instantiate(Any()).toString()
         )
     }
 }
