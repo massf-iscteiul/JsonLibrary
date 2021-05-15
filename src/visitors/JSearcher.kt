@@ -1,7 +1,6 @@
 package visitors
 
 import RJComposite
-import objects.Composite
 import objects.Leaf
 import objects.Visitable
 
@@ -12,12 +11,6 @@ class JSearcher(val condition: (Visitable) -> Boolean) : Visitor {
     override fun visit(jLeaf: Leaf) {
         if(condition(jLeaf)){
             conditionedList.add(jLeaf)
-        }
-    }
-
-    override fun visit(jComposite: Composite) {
-        if(condition(jComposite)){
-            conditionedList.add(jComposite)
         }
     }
 

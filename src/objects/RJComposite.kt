@@ -9,7 +9,4 @@ abstract class RJComposite : Visitable {
         visitor.visit(this)
         allJValues.forEach { it.accept(visitor) }
     }
-
-    abstract fun beginString(): Any?
-    abstract fun endString(): Any?
 }
