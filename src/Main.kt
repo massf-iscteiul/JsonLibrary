@@ -7,7 +7,6 @@ fun main() {
     val movieList = MovieList(10, movie, true, listOf(1, 2, 3))
     val stringTest = "Hello World"
     val something = Something(listOf(movie, movie,movie), "SomethingTest")
-    println(JBuilder().instantiate(something).toString())
     val builder = JBuilder().instantiate(something)
     JTree(builder).open()
 
