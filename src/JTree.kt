@@ -12,13 +12,12 @@ import org.eclipse.swt.layout.GridLayout
 import org.eclipse.swt.widgets.*
 
 class JTree(builder: Visitable) {
-    val shell: Shell
+    private val shell: Shell = Shell(Display.getDefault())
     val tree: Tree
     val jsonLabel: Label
     val jsonText: Text
 
     init {
-        shell = Shell(Display.getDefault())
         shell.text = "TITLE TITLE"
         shell.layout = GridLayout(2, true)
 
@@ -30,11 +29,7 @@ class JTree(builder: Visitable) {
         jsonText = Text(shell, SWT.BORDER)
         jsonText.layoutData = GridData(GridData.FILL_HORIZONTAL)
         jsonText.addModifyListener {
-            tree.traverse {
-                if (jsonText.text != "") {
-                    it.background = if (it.text.contains(jsonText.text)) Color(114, 188, 212) else null
-                } else it.background = null
-            }
+            searchInTree()
         }
 
         tree.addSelectionListener(object : SelectionAdapter() {
@@ -54,24 +49,15 @@ class JTree(builder: Visitable) {
         buildTree(builder, tree)
     }
 
-    // auxiliar para profundidade do nó
-    fun TreeItem.depth(): Int =
-        if (parentItem == null) 0
-        else 1 + parentItem.depth()
-
-
-    fun open() {
-        tree.expandAll()
-        shell.pack()
-        shell.open()
-        val display = Display.getDefault()
-        while (!shell.isDisposed) {
-            if (!display.readAndDispatch()) display.sleep()
+    private fun searchInTree(){
+        tree.traverse {
+            if (jsonText.text != "") {
+                it.background = if (it.text.contains(jsonText.text)) Color(114, 188, 212) else null
+            } else it.background = null
         }
-        display.dispose()
     }
 
-    fun buildTree(jValue: Visitable, treeBranch: Any, key: String? = null) {
+    private fun buildTree(jValue: Visitable, treeBranch: Any, key: String? = null) {
         val treeItem = if (treeBranch is Tree) {
             TreeItem(treeBranch, SWT.None)
         } else {
@@ -107,14 +93,20 @@ class JTree(builder: Visitable) {
         }
     }
 
+    fun open() {
+        tree.expandAll()
+        shell.pack()
+        shell.open()
+        val display = Display.getDefault()
+        while (!shell.isDisposed) {
+            if (!display.readAndDispatch()) display.sleep()
+        }
+        display.dispose()
+    }
+
 }
 
-
-// auxiliares para varrer a árvore
-
 fun Tree.expandAll() = traverse { it.expanded = true }
-
-fun Tree.searchAll() = traverse {}
 
 fun Tree.traverse(visitor: (TreeItem) -> Unit) {
     fun TreeItem.traverse() {
