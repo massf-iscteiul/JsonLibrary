@@ -1,16 +1,16 @@
 package visitors
 
 import JComposite
-import objects.Leaf
+import objects.JLeaf
 import objects.Visitable
 
 class JSearcher(val condition: (Visitable) -> Boolean) : Visitor {
 
     var conditionedList = mutableListOf<Visitable>()
 
-    override fun visit(jLeaf: Leaf) {
-        if(condition(jLeaf)){
-            conditionedList.add(jLeaf)
+    override fun visit(jJLeaf: JLeaf) {
+        if(condition(jJLeaf)){
+            conditionedList.add(jJLeaf)
         }
     }
 

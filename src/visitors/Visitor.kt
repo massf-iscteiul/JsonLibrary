@@ -4,6 +4,6 @@ import JComposite
 import objects.*
 
 interface Visitor {
-    fun visit(jLeaf: Leaf)
+    fun visit(jJLeaf: JLeaf)
     fun visit(jComposite: JComposite)
 }
