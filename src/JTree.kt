@@ -1,30 +1,37 @@
 import objects.JArray
 import objects.JObject
-import objects.Leaf
+import objects.JLeaf
 import objects.Visitable
 import org.eclipse.swt.SWT
-import org.eclipse.swt.events.ModifyEvent
 import org.eclipse.swt.events.SelectionAdapter
 import org.eclipse.swt.events.SelectionEvent
 import org.eclipse.swt.graphics.Color
 import org.eclipse.swt.layout.GridData
 import org.eclipse.swt.layout.GridLayout
 import org.eclipse.swt.widgets.*
+import plugins.PresentationPlugin
+import utils.expandAll
+import utils.traverse
 
 class JTree(builder: Visitable) {
-    private val shell: Shell = Shell(Display.getDefault())
+    val shell: Shell
     val tree: Tree
     val jsonLabel: Label
     val jsonText: Text
 
+    @Inject
+    private lateinit var presentationPlugin: PresentationPlugin
+
     init {
-        shell.text = "TITLE TITLE"
+        shell = Shell(Display.getDefault())
+        shell.text = "Json Visualizer"
         shell.layout = GridLayout(2, true)
-
         tree = Tree(shell, SWT.SINGLE or SWT.BORDER)
-
-        jsonLabel = Label(shell, SWT.BORDER or SWT.WRAP or SWT.V_SCROLL)
+        tree.layoutData = GridData(GridData.FILL_BOTH)
+        jsonLabel = Label(shell, SWT.BORDER or SWT.WRAP or SWT.V_SCROLL or SWT.SINGLE)
         jsonLabel.layoutData = GridData(GridData.FILL_BOTH)
+
+        // icon = Image(Display.getDefault(), ImageData("src/icons/box.png").scaledTo(20, 20))
 
         jsonText = Text(shell, SWT.BORDER)
         jsonText.layoutData = GridData(GridData.FILL_HORIZONTAL)
@@ -34,7 +41,7 @@ class JTree(builder: Visitable) {
 
         tree.addSelectionListener(object : SelectionAdapter() {
             override fun widgetSelected(e: SelectionEvent) {
-                jsonLabel.text = tree.selection.first().data as String?
+                jsonLabel.text = tree.selection.first().data.toString()
             }
         })
 
@@ -64,13 +71,13 @@ class JTree(builder: Visitable) {
             TreeItem(treeBranch as TreeItem, SWT.None)
         }
         when (jValue) {
-            is Leaf -> {
+            is JLeaf -> {
                 if (key != null) {
                     treeItem.text = "$key: $jValue"
                 } else {
                     treeItem.text = "$jValue"
                 }
-                treeItem.data = jValue.toString()
+                treeItem.data = jValue
             }
             is JObject -> {
                 if (key != null) {
@@ -78,14 +85,15 @@ class JTree(builder: Visitable) {
                 } else {
                     treeItem.text = "(object)"
                 }
-                treeItem.data = jValue.toString()
+                treeItem.data = jValue
+                // treeItem.image = icon
                 jValue.objects.forEach {
                     buildTree(it.value, treeItem, it.key)
                 }
             }
             is JArray -> {
                 treeItem.text = "$key"
-                treeItem.data = jValue.toString()
+                treeItem.data = jValue
                 jValue.allJValues.forEach {
                     buildTree(it, treeItem)
                 }
@@ -95,8 +103,9 @@ class JTree(builder: Visitable) {
 
     fun open() {
         tree.expandAll()
-        shell.pack()
+        presentationPlugin.execute(this)
         shell.open()
+        shell.pack()
         val display = Display.getDefault()
         while (!shell.isDisposed) {
             if (!display.readAndDispatch()) display.sleep()
@@ -105,19 +114,3 @@ class JTree(builder: Visitable) {
     }
 
 }
-
-fun Tree.expandAll() = traverse { it.expanded = true }
-
-fun Tree.traverse(visitor: (TreeItem) -> Unit) {
-    fun TreeItem.traverse() {
-        visitor(this)
-        items.forEach {
-            it.traverse()
-        }
-    }
-    items.forEach { it.traverse() }
-}
-
-
-
-
