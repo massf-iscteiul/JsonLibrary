@@ -8,12 +8,6 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.jvm.isAccessible
 
-@Target(AnnotationTarget.PROPERTY)
-annotation class Inject
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class Injectadd
-
 class Injector {
 
     companion object {
