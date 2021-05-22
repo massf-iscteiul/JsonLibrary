@@ -1,3 +1,4 @@
+import plugins.ActionsPlugin
 import java.io.File
 import java.util.*
 import kotlin.reflect.KClass
@@ -36,8 +37,14 @@ class Injector {
                     it.isAccessible = true
                     val key = type.simpleName + "." + it.name
                     val obj = map[key]!!.first().createInstance()
-                    println("Object: $obj. Key: $key")
                     (it as KMutableProperty<*>).setter.call(jTree, obj)
+                }
+                else if (it.hasAnnotation<Injectadd>()){
+                    it.isAccessible = true
+                    val key = type.simpleName + "." + it.name
+                    val actions = mutableListOf<ActionsPlugin>()
+                    map[key]!!.forEach { it2 -> actions.add(it2.createInstance() as ActionsPlugin)}
+                    (it as KMutableProperty<*>).setter.call(jTree, actions)
                 }
             }
             return jTree

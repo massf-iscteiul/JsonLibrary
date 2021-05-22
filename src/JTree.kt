@@ -9,9 +9,11 @@ import org.eclipse.swt.graphics.Color
 import org.eclipse.swt.layout.GridData
 import org.eclipse.swt.layout.GridLayout
 import org.eclipse.swt.widgets.*
+import plugins.ActionsPlugin
 import plugins.PresentationPlugin
 import utils.expandAll
 import utils.traverse
+import javax.swing.JButton
 
 class JTree(builder: Visitable) {
     val shell: Shell
@@ -22,6 +24,9 @@ class JTree(builder: Visitable) {
     @Inject
     private lateinit var presentationPlugin: PresentationPlugin
 
+    @Injectadd
+    private var actions = mutableListOf<ActionsPlugin>()
+
     init {
         shell = Shell(Display.getDefault())
         shell.text = "Json Visualizer"
@@ -30,8 +35,6 @@ class JTree(builder: Visitable) {
         tree.layoutData = GridData(GridData.FILL_BOTH)
         jsonLabel = Label(shell, SWT.BORDER or SWT.WRAP or SWT.V_SCROLL or SWT.SINGLE)
         jsonLabel.layoutData = GridData(GridData.FILL_BOTH)
-
-        // icon = Image(Display.getDefault(), ImageData("src/icons/box.png").scaledTo(20, 20))
 
         jsonText = Text(shell, SWT.BORDER)
         jsonText.layoutData = GridData(GridData.FILL_HORIZONTAL)
@@ -45,14 +48,6 @@ class JTree(builder: Visitable) {
             }
         })
 
-        val button = Button(shell, SWT.PUSH)
-        button.text = "depth"
-        button.addSelectionListener(object : SelectionAdapter() {
-            override fun widgetSelected(e: SelectionEvent) {
-                val item = tree.selection.first()
-
-            }
-        })
         buildTree(builder, tree)
     }
 
@@ -86,7 +81,6 @@ class JTree(builder: Visitable) {
                     treeItem.text = "(object)"
                 }
                 treeItem.data = jValue
-                // treeItem.image = icon
                 jValue.objects.forEach {
                     buildTree(it.value, treeItem, it.key)
                 }
@@ -101,9 +95,23 @@ class JTree(builder: Visitable) {
         }
     }
 
+    private fun createActionButtons(){
+        val jTree = this
+        actions.forEach { action ->
+            val button = Button(shell, SWT.PUSH)
+            button.text = action.name
+            button.addSelectionListener(object : SelectionAdapter() {
+                override fun widgetSelected(e: SelectionEvent) {
+                    action.execute(jTree)
+                }
+            })
+        }
+    }
+
     fun open() {
         tree.expandAll()
         presentationPlugin.execute(this)
+        createActionButtons()
         shell.open()
         shell.pack()
         val display = Display.getDefault()
