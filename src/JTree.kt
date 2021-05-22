@@ -13,7 +13,6 @@ import plugins.ActionsPlugin
 import plugins.PresentationPlugin
 import utils.expandAll
 import utils.traverse
-import javax.swing.JButton
 
 class JTree(builder: Visitable) {
     val shell: Shell
