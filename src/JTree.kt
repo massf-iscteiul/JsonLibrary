@@ -14,7 +14,7 @@ import plugins.PresentationPlugin
 import utils.expandAll
 import utils.traverse
 
-class JTree(builder: Visitable) {
+class JTree(val builder: Visitable) {
     val shell: Shell
     val tree: Tree
     val jsonLabel: Label
@@ -56,6 +56,13 @@ class JTree(builder: Visitable) {
                 it.background = if (it.text.contains(jsonText.text)) Color(114, 188, 212) else null
             } else it.background = null
         }
+    }
+
+    fun refresh(){
+        tree.removeAll()
+        buildTree(builder, tree)
+        tree.expandAll()
+        applyPresentationPLugin()
     }
 
     private fun buildTree(jValue: Visitable, treeBranch: Any, key: String? = null) {
@@ -107,9 +114,15 @@ class JTree(builder: Visitable) {
         }
     }
 
+    private fun applyPresentationPLugin(){
+        if (this::presentationPlugin.isInitialized) {
+            presentationPlugin.execute(this)
+        }
+    }
+
     fun open() {
         tree.expandAll()
-        presentationPlugin.execute(this)
+        applyPresentationPLugin()
         createActionButtons()
         shell.open()
         shell.pack()

@@ -1,97 +1,87 @@
 package plugins
 
 import JTree
-import objects.JBoolean
-import objects.JLeaf
-import objects.JNumber
-import objects.JString
+import objects.*
 import org.eclipse.swt.SWT
 import org.eclipse.swt.events.SelectionAdapter
 import org.eclipse.swt.events.SelectionEvent
-import org.eclipse.swt.graphics.Image
-import org.eclipse.swt.graphics.ImageData
 import org.eclipse.swt.layout.GridData
 import org.eclipse.swt.layout.GridLayout
 import org.eclipse.swt.widgets.*
-import utils.traverse
-import java.io.File
 
 class EditPlugin : ActionsPlugin {
 
-    val textBoxs = mutableListOf<Text>()
+    enum class ErrorType{
+        OBJECT, NUMBER
+    }
 
     override val name: String
         get() = "Edit Value"
 
     override fun execute(jTree: JTree) {
-        // jTree.shell.enabled = false
         val editShell = Shell(jTree.shell)
-
-        editShell.text = name
-        editShell.layout = GridLayout(1, false)
-        val composite = Composite(editShell, 2)
-        composite.layout = GridLayout(2, false)
-
         val treeItem = jTree.tree.selection.first()
-        val label = Label(composite, SWT.WRAP or SWT.SINGLE)
 
-        label.text = treeItem.text
-        val text = Text(composite, SWT.BORDER)
+        if (treeItem.data is JObject || treeItem.data is JNull){
+            showShell(editShell, ErrorType.OBJECT)
+        }
+        else {
+            jTree.shell.enabled = false
+            editShell.text = name
+            editShell.layout = GridLayout(1, false)
+            val composite = Composite(editShell, 2)
+            composite.layout = GridLayout(2, false)
 
-        val editButton = Button(editShell, SWT.PUSH)
-        editButton.layoutData = GridData(GridData.FILL_HORIZONTAL)
-        editButton.text = "Edit!"
+            val label = Label(composite, SWT.WRAP or SWT.SINGLE)
+            label.text = treeItem.text.split(":")[0]
+            val text = Text(composite, SWT.BORDER)
 
-        editButton.addSelectionListener(object : SelectionAdapter() {
-            override fun widgetSelected(e: SelectionEvent) {
-                when(treeItem.data){
-                    is JString -> {
-                        (treeItem.data as JString).value = text.text
-                        editShell.close()
-                    }
-                    is JNumber -> {
-                        try {
-                            (treeItem.data as JNumber).value = (text.text.toInt())
-                            editShell.close()
+            val editButton = Button(editShell, SWT.PUSH)
+            editButton.layoutData = GridData(GridData.FILL_HORIZONTAL)
+            editButton.text = "Edit!"
+
+            editButton.addSelectionListener(object : SelectionAdapter() {
+                override fun widgetSelected(e: SelectionEvent) {
+                    when (treeItem.data) {
+                        is JString -> {
+                            (treeItem.data as JString).value = text.text
                         }
-                        catch (e: Exception){
-                            showTryAgain(editShell)
+                        is JNumber -> {
+                            try {
+                                (treeItem.data as JNumber).value = (text.text.toInt())
+                            } catch (e: Exception) {
+                                showShell(editShell, ErrorType.NUMBER)
+                                return
+                            }
+                        }
+                        is JBoolean -> {
+                            (treeItem.data as JBoolean).value = (text.text.toBoolean())
                         }
                     }
-                    is JBoolean -> {
-                        (treeItem.data as JBoolean).value = (text.text.toBoolean())
-                        editShell.close()
-                    }
+                    jTree.refresh()
+                    jTree.shell.enabled = true
+                    editShell.close()
                 }
-
-            }
-        })
-
-        /*jTree.tree.selection.first().traverse {
-            if (it.data is JString){
-                val key = Label(composite, SWT.WRAP or SWT.SINGLE)
-                key.text = it.text
-                val value = Text(composite, SWT.BORDER)
-                value.data = it
-                textBoxs.add(value)
-            }
-        }*/
-
-        editShell.open()
-        editShell.pack()
-
+            })
+            editShell.open()
+            editShell.pack()
+        }
     }
 
-    private fun showTryAgain(writeJsonShell: Shell){
-        val tryAgainShell = Shell(writeJsonShell)
+    private fun showShell(editShell: Shell, type: ErrorType){
+        val tryAgainShell = Shell(editShell)
         tryAgainShell.text = "Error"
         tryAgainShell.layout = GridLayout(1, false)
         val tryAgainLabel = Label(tryAgainShell, SWT.NONE)
-        tryAgainLabel.text = "Input must be a number! Try again."
-        val sendButton = Button(tryAgainShell, SWT.PUSH)
-        sendButton.layoutData = GridData(GridData.FILL_HORIZONTAL)
-        sendButton.text = "OK"
-        sendButton.addSelectionListener(object : SelectionAdapter() {
+        if (type == ErrorType.NUMBER) {
+            tryAgainLabel.text = "Input must be a number! Try again."
+        }else{
+            tryAgainLabel.text = "Not an editable object!"
+        }
+        val okButton = Button(tryAgainShell, SWT.PUSH)
+        okButton.layoutData = GridData(GridData.FILL_HORIZONTAL)
+        okButton.text = "OK"
+        okButton.addSelectionListener(object : SelectionAdapter() {
             override fun widgetSelected(e: SelectionEvent) {
                 tryAgainShell.close()
             }
