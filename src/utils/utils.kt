@@ -14,3 +14,13 @@ fun Tree.traverse(visitor: (TreeItem) -> Unit) {
     }
     items.forEach { it.traverse() }
 }
+
+fun TreeItem.traverse(visitor: (TreeItem) -> Unit) {
+    fun TreeItem.traverse() {
+        visitor(this)
+        items.forEach {
+            it.traverse()
+        }
+    }
+    items.forEach { it.traverse() }
+}

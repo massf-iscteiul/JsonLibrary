@@ -1,6 +1,6 @@
 package objects
 
-data class JNumber(val value: Int) : JLeaf() {
+data class JNumber(var value: Int) : JLeaf() {
     override fun toString(): String{
         return "$value"
     }

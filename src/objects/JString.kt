@@ -1,6 +1,6 @@
 package objects
 
-data class JString(val value: String) : JLeaf() {
+data class JString(var value: String) : JLeaf() {
     override fun toString(): String{
         return "\"${value}\""
     }
