@@ -30,15 +30,19 @@ class Injector {
                 if (it.hasAnnotation<Inject>()) {
                     it.isAccessible = true
                     val key = type.simpleName + "." + it.name
-                    val obj = map[key]!!.first().createInstance()
-                    (it as KMutableProperty<*>).setter.call(jTree, obj)
+                    if (map[key] != null) {
+                        val obj = map[key]!!.first().createInstance()
+                        (it as KMutableProperty<*>).setter.call(jTree, obj)
+                    }
                 }
                 else if (it.hasAnnotation<Injectadd>()){
                     it.isAccessible = true
                     val key = type.simpleName + "." + it.name
-                    val actions = mutableListOf<ActionsPlugin>()
-                    map[key]!!.forEach { it2 -> actions.add(it2.createInstance() as ActionsPlugin)}
-                    (it as KMutableProperty<*>).setter.call(jTree, actions)
+                    if (map[key] != null) {
+                        val actions = mutableListOf<ActionsPlugin>()
+                        map[key]!!.forEach { it2 -> actions.add(it2.createInstance() as ActionsPlugin) }
+                        (it as KMutableProperty<*>).setter.call(jTree, actions)
+                    }
                 }
             }
             return jTree
