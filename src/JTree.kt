@@ -9,8 +9,8 @@ import org.eclipse.swt.graphics.Color
 import org.eclipse.swt.layout.GridData
 import org.eclipse.swt.layout.GridLayout
 import org.eclipse.swt.widgets.*
-import plugins.ActionsPlugin
-import plugins.PresentationPlugin
+import plugins.actions.ActionsPlugin
+import plugins.presentation.PresentationPlugin
 import utils.expandAll
 import utils.traverse
 

@@ -1,4 +1,4 @@
-package plugins
+package plugins.presentation
 
 import JComposite
 import JTree

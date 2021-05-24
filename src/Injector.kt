@@ -1,4 +1,4 @@
-import plugins.ActionsPlugin
+import plugins.actions.ActionsPlugin
 import java.io.File
 import java.util.*
 import kotlin.reflect.KClass

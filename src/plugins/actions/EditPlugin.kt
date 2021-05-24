@@ -1,4 +1,4 @@
-package plugins
+package plugins.actions
 
 import JTree
 import objects.*
