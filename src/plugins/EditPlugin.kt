@@ -22,7 +22,7 @@ class EditPlugin : ActionsPlugin {
         val editShell = Shell(jTree.shell)
         val treeItem = jTree.tree.selection.first()
 
-        if (treeItem.data is JObject || treeItem.data is JNull){
+        if (treeItem.data is JObject || treeItem.data is JNull || treeItem.data is JArray){
             showShell(editShell, ErrorType.OBJECT)
         }
         else {
