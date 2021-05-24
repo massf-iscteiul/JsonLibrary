@@ -9,7 +9,7 @@ import org.eclipse.swt.layout.GridData
 import org.eclipse.swt.layout.GridLayout
 import org.eclipse.swt.widgets.*
 
-class EditPlugin : ActionsPlugin {
+class Edit : ActionsPlugin {
 
     enum class ErrorType{
         OBJECT, NUMBER
