@@ -2,7 +2,7 @@ package objects
 
 import JComposite
 
-data class JObject(val objects : List<KeyValuePair>): JComposite() {
+data class JObject(val objects : MutableList<KeyValuePair>): JComposite() {
 
     override val allJValues : MutableList<Visitable> = mutableListOf()
 
