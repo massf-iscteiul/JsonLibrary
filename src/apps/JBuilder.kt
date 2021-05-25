@@ -20,6 +20,12 @@ class JBuilder {
             is Boolean -> {
                 JBoolean(toBeParsed)
             }
+            null -> {
+                JNull(toBeParsed)
+            }
+            is Enum<*> -> {
+                JString(toBeParsed.name)
+            }
             is List<*>, is Set<*> -> {
                 val arrayObjects = (toBeParsed as Iterable<*>).map { instantiate(it) }
                 JArray(arrayObjects.toMutableList())
@@ -30,12 +36,6 @@ class JBuilder {
                     keyValuePairs.add(KeyValuePair(it.first.toString(), instantiate(it.second)))
                 }
                 JObject(keyValuePairs)
-            }
-            null -> {
-                JNull(toBeParsed)
-            }
-            is Enum<*> -> {
-                JString(toBeParsed.name)
             }
             else -> {
                 val keyValuePairs = mutableListOf<KeyValuePair>()
