@@ -1,6 +1,6 @@
 package apps
 
-import JComposite
+import objects.JComposite
 import objects.JLeaf
 import objects.JValue
 

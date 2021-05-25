@@ -1,6 +1,6 @@
 package plugins.presentation
 
-import JComposite
+import objects.JComposite
 import apps.JTreeWindow
 import objects.JArray
 import objects.JLeaf
