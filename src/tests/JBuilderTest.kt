@@ -1,7 +1,7 @@
 package tests
 
-import Movie
-import MovieList
+import tests.testobjects.Movie
+import tests.testobjects.MovieList
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import visitors.JBuilder

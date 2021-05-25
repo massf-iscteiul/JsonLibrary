@@ -1,3 +1,5 @@
+import tests.testobjects.Movie
+import tests.testobjects.MovieList
 import visitors.JBuilder
 
 data class Something(val movieList: List<Movie>, val something: String)
