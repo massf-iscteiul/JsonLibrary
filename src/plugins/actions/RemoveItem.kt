@@ -22,6 +22,7 @@ class RemoveItem : ActionsPlugin {
             (treeItem.parentItem.data as JObject).objects.removeIf { keyValuePair ->
                 keyValuePair.value == treeItem.data
             }
+            jTreeWindow.jsonLabel.text = ""
             jTreeWindow.refresh()
         }
         else {

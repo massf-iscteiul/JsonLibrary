@@ -58,6 +58,7 @@ class Edit : ActionsPlugin {
                             (treeItem.data as JBoolean).value = (text.text.toBoolean())
                         }
                     }
+                    jTreeWindow.jsonLabel.text = treeItem.data.toString()
                     jTreeWindow.refresh()
                     jTreeWindow.shell.enabled = true
                     editShell.close()
