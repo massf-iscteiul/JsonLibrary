@@ -2,6 +2,6 @@ package objects
 
 import visitors.Visitor
 
-interface Visitable {
+interface JValue {
     fun accept(visitor : Visitor)
 }

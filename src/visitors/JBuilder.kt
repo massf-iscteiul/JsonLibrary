@@ -9,7 +9,7 @@ import kotlin.reflect.full.hasAnnotation
 
 class JBuilder {
 
-    fun instantiate(toBeParsed: Any?): Visitable {
+    fun instantiate(toBeParsed: Any?): JValue {
         return when (toBeParsed) {
             is String -> {
                 JString(toBeParsed)

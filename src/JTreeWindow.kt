@@ -1,7 +1,7 @@
 import objects.JArray
 import objects.JObject
 import objects.JLeaf
-import objects.Visitable
+import objects.JValue
 import org.eclipse.swt.SWT
 import org.eclipse.swt.events.SelectionAdapter
 import org.eclipse.swt.events.SelectionEvent
@@ -14,7 +14,7 @@ import plugins.presentation.PresentationPlugin
 import utils.expandAll
 import utils.traverse
 
-class JTreeWindow(val builder: Visitable) {
+class JTreeWindow(val builder: JValue) {
     val shell: Shell
     val tree: Tree
     val jsonLabel: Label
@@ -65,7 +65,7 @@ class JTreeWindow(val builder: Visitable) {
         applyPresentationPLugin()
     }
 
-    private fun buildTree(jValue: Visitable, treeBranch: Any, key: String? = null) {
+    private fun buildTree(jValue: JValue, treeBranch: Any, key: String? = null) {
         val treeItem = if (treeBranch is Tree) {
             TreeItem(treeBranch, SWT.None)
         } else {

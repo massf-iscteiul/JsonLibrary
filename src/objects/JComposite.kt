@@ -1,9 +1,9 @@
-import objects.Visitable
+import objects.JValue
 import visitors.Visitor
 
-abstract class JComposite : Visitable {
+abstract class JComposite : JValue {
 
-    abstract val allJValues: MutableList<Visitable>
+    abstract val allJValues: MutableList<JValue>
 
     override fun accept(visitor: Visitor) {
         visitor.visit(this)
