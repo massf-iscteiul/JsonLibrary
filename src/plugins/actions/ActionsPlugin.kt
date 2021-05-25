@@ -1,8 +1,8 @@
 package plugins.actions
 
-import JTree
+import JTreeWindow
 
 interface ActionsPlugin {
     val name: String
-    fun execute(jTree: JTree)
+    fun execute(jTreeWindow: JTreeWindow)
 }

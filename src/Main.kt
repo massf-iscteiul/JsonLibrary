@@ -9,7 +9,7 @@ fun main() {
     val something = Something(listOf(movie, movie,movie), "SomethingTest")
     val builder = JBuilder().instantiate(movieList)
     //println(builder.toString())
-    val w = Injector.create(JTree(builder))
+    val w = Injector.create(JTreeWindow(builder))
     w.open()
 
 }

@@ -1,6 +1,6 @@
 package plugins.actions
 
-import JTree
+import JTreeWindow
 import objects.*
 import org.eclipse.swt.SWT
 import org.eclipse.swt.events.SelectionAdapter
@@ -18,15 +18,15 @@ class Edit : ActionsPlugin {
     override val name: String
         get() = "Edit Value"
 
-    override fun execute(jTree: JTree) {
-        val editShell = Shell(jTree.shell)
-        val treeItem = jTree.tree.selection.first()
+    override fun execute(jTreeWindow: JTreeWindow) {
+        val editShell = Shell(jTreeWindow.shell)
+        val treeItem = jTreeWindow.tree.selection.first()
 
         if (treeItem.data is JObject || treeItem.data is JNull || treeItem.data is JArray){
             showShell(editShell, ErrorType.OBJECT)
         }
         else {
-            jTree.shell.enabled = false
+            jTreeWindow.shell.enabled = false
             editShell.text = name
             editShell.layout = GridLayout(1, false)
             val composite = Composite(editShell, 2)
@@ -58,8 +58,8 @@ class Edit : ActionsPlugin {
                             (treeItem.data as JBoolean).value = (text.text.toBoolean())
                         }
                     }
-                    jTree.refresh()
-                    jTree.shell.enabled = true
+                    jTreeWindow.refresh()
+                    jTreeWindow.shell.enabled = true
                     editShell.close()
                 }
             })

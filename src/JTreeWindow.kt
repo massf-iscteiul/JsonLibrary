@@ -14,7 +14,7 @@ import plugins.presentation.PresentationPlugin
 import utils.expandAll
 import utils.traverse
 
-class JTree(val builder: Visitable) {
+class JTreeWindow(val builder: Visitable) {
     val shell: Shell
     val tree: Tree
     val jsonLabel: Label

@@ -24,15 +24,15 @@ class Injector {
             scanner.close()
         }
 
-        fun create(jTree: JTree): JTree {
-            val type = jTree::class
+        fun create(jTreeWindow: JTreeWindow): JTreeWindow {
+            val type = jTreeWindow::class
             type.declaredMemberProperties.forEach {
                 if (it.hasAnnotation<Inject>()) {
                     it.isAccessible = true
                     val key = type.simpleName + "." + it.name
                     if (map[key] != null) {
                         val obj = map[key]!!.first().createInstance()
-                        (it as KMutableProperty<*>).setter.call(jTree, obj)
+                        (it as KMutableProperty<*>).setter.call(jTreeWindow, obj)
                     }
                 }
                 else if (it.hasAnnotation<Injectadd>()){
@@ -41,11 +41,11 @@ class Injector {
                     if (map[key] != null) {
                         val actions = mutableListOf<ActionsPlugin>()
                         map[key]!!.forEach { it2 -> actions.add(it2.createInstance() as ActionsPlugin) }
-                        (it as KMutableProperty<*>).setter.call(jTree, actions)
+                        (it as KMutableProperty<*>).setter.call(jTreeWindow, actions)
                     }
                 }
             }
-            return jTree
+            return jTreeWindow
         }
     }
 

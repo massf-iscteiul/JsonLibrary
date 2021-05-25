@@ -1,6 +1,6 @@
 package plugins.actions
 
-import JTree
+import JTreeWindow
 import org.eclipse.swt.SWT
 import org.eclipse.swt.events.SelectionAdapter
 import org.eclipse.swt.events.SelectionEvent
@@ -14,8 +14,8 @@ class WriteJson : ActionsPlugin {
     override val name: String
         get() = "Write to Json"
 
-    override fun execute(jTree: JTree) {
-        val writeJsonShell = Shell(jTree.shell)
+    override fun execute(jTreeWindow: JTreeWindow) {
+        val writeJsonShell = Shell(jTreeWindow.shell)
         writeJsonShell.text = name
         writeJsonShell.layout = GridLayout(1, false)
         val composite = Composite(writeJsonShell, 2)
@@ -36,7 +36,7 @@ class WriteJson : ActionsPlugin {
                     val fileName = path.text
                     val jsonFile = File(fileName)
                     jsonFile.printWriter().use { out ->
-                        out.println(jTree.jsonLabel.text)
+                        out.println(jTreeWindow.jsonLabel.text)
                     }
                     writeJsonShell.close()
                 }

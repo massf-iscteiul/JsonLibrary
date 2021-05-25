@@ -1,7 +1,7 @@
 package plugins.presentation
 
 import JComposite
-import JTree
+import JTreeWindow
 import objects.JArray
 import objects.JLeaf
 import objects.JNumber
@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.TreeItem
 import utils.traverse
 class IconsPlugin: PresentationPlugin {
 
-    override fun execute(jTree: JTree) {
+    override fun execute(jTreeWindow: JTreeWindow) {
         val wrong = mutableListOf<Any>()
-        jTree.tree.traverse {
+        jTreeWindow.tree.traverse {
             it.text = it.text.split(":")[0]
             if (it.data is JNumber && it.parentItem.data is JArray){
                 wrong.add(it)

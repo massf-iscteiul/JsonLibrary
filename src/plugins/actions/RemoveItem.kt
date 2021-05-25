@@ -1,6 +1,6 @@
 package plugins.actions
 
-import JTree
+import JTreeWindow
 import objects.JObject
 import org.eclipse.swt.SWT
 import org.eclipse.swt.events.SelectionAdapter
@@ -16,16 +16,16 @@ class RemoveItem : ActionsPlugin {
     override val name: String
         get() = "Remove"
 
-    override fun execute(jTree: JTree) {
-        val treeItem = jTree.tree.selection.first()
+    override fun execute(jTreeWindow: JTreeWindow) {
+        val treeItem = jTreeWindow.tree.selection.first()
         if (treeItem.parentItem != null) {
             (treeItem.parentItem.data as JObject).objects.removeIf { keyValuePair ->
                 keyValuePair.value == treeItem.data
             }
-            jTree.refresh()
+            jTreeWindow.refresh()
         }
         else {
-            showShell(jTree.shell)
+            showShell(jTreeWindow.shell)
         }
     }
 
