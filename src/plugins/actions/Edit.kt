@@ -65,6 +65,11 @@ class Edit : ActionsPlugin {
             })
             editShell.open()
             editShell.pack()
+            val display = Display.getDefault()
+            while (!editShell.isDisposed) {
+                if (!display.readAndDispatch()) display.sleep()
+            }
+            jTreeWindow.shell.enabled = true
         }
     }
 
