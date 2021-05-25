@@ -7,8 +7,8 @@ import objects.JNumber
 import objects.JString
 import objects.JObject
 import org.junit.Test
-import visitors.JBuilder
-import visitors.JSearcher
+import apps.JBuilder
+import apps.JSearcher
 
 class JSearcherTest {
 

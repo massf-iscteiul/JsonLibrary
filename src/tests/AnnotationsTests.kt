@@ -4,7 +4,7 @@ import JIdentifier
 import JIgnore
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import visitors.JBuilder
+import apps.JBuilder
 
 class AnnotationsTests {
 

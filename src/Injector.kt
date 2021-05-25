@@ -1,3 +1,4 @@
+import apps.JTreeWindow
 import plugins.actions.ActionsPlugin
 import java.io.File
 import java.util.*

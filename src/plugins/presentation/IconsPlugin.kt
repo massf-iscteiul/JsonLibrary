@@ -1,7 +1,7 @@
 package plugins.presentation
 
 import JComposite
-import JTreeWindow
+import apps.JTreeWindow
 import objects.JArray
 import objects.JLeaf
 import objects.JNumber

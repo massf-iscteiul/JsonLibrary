@@ -1,6 +1,6 @@
 package plugins.presentation
 
-import JTreeWindow
+import apps.JTreeWindow
 
 interface PresentationPlugin {
     fun execute(jTreeWindow: JTreeWindow)

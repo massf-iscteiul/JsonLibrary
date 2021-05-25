@@ -1,5 +1,5 @@
 import objects.JValue
-import visitors.Visitor
+import apps.Visitor
 
 abstract class JComposite : JValue {
 

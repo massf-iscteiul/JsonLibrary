@@ -1,6 +1,6 @@
 package objects
 
-import visitors.Visitor
+import apps.Visitor
 
 interface JValue {
     fun accept(visitor : Visitor)

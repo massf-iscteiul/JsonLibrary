@@ -1,6 +1,6 @@
 package plugins.actions
 
-import JTreeWindow
+import apps.JTreeWindow
 import objects.*
 import org.eclipse.swt.SWT
 import org.eclipse.swt.events.SelectionAdapter

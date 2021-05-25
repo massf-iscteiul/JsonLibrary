@@ -1,6 +1,6 @@
 package objects
 
-import visitors.Visitor
+import apps.Visitor
 
 abstract class JLeaf : JValue {
     override fun accept(visitor: Visitor) {

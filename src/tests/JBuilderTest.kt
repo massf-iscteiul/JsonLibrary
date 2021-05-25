@@ -4,7 +4,7 @@ import tests.testobjects.Movie
 import tests.testobjects.MovieList
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import visitors.JBuilder
+import apps.JBuilder
 
 class JBuilderTest {
 

@@ -1,6 +1,6 @@
 package plugins.actions
 
-import JTreeWindow
+import apps.JTreeWindow
 
 interface ActionsPlugin {
     val name: String

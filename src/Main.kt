@@ -1,6 +1,7 @@
 import tests.testobjects.Movie
 import tests.testobjects.MovieList
-import visitors.JBuilder
+import apps.JBuilder
+import apps.JTreeWindow
 
 data class Something(val movieList: List<Movie>, val something: String)
 
